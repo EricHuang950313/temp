@@ -14,15 +14,12 @@ class Solver:
         l = data[str(mapp)]
 
         self.mazeA = np.array(l)
+
         self.row, self.col = self.mazeA.shape
         self.pixelZoomin = 70
         self.mazeB = np.zeros((self.row*self.pixelZoomin, self.col*self.pixelZoomin), np.uint8)
-        
+        self.mazeB[1*self.pixelZoomin: 2*self.pixelZoomin, 1*self.pixelZoomin: 2*self.pixelZoomin] = 255
 
-        for i in range(self.row):
-            for j in range(self.col):
-                if self.mazeA[i, j] == 0:
-                    self.mazeB[i*self.pixelZoomin:(i+1)*self.pixelZoomin, j*self.pixelZoomin: (j+1)*self.pixelZoomin] = 255
 
     def reach(self, i, j):
         self.mazeA[i][j] = 1
@@ -58,13 +55,13 @@ class Solver:
             sys.exit()
 
         # recursive
-        if self.mazeA[i+1][j] == 0:  # right
+        if self.mazeA[i+1][j] == 0:  # down
             self.reach(i+1, j)
-        if self.mazeA[i-1][j] == 0:  # left
+        if self.mazeA[i-1][j] == 0:  # up
             self.reach(i-1, j)
-        if self.mazeA[i][j+1] == 0:  # up
+        if self.mazeA[i][j+1] == 0:  # right
             self.reach(i, j+1)
-        if self.mazeA[i][j-1] == 0:  # down
+        if self.mazeA[i][j-1] == 0:  # left
             self.reach(i, j-1)
 
         # No road 
